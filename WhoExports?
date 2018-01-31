@@ -1,0 +1,73 @@
+/**
+ * Checks to see which countries export which goods with loops
+ * 
+ * (your name) 
+ * (a version number or a date)
+ */
+import edu.duke.*;
+import org.apache.commons.csv.*;
+
+public class WhichCountriesExport {
+    public void tester () {
+      FileResource fr = new FileResource();
+      CSVParser parser = fr.getCSVParser();
+      
+      twoExportProducts(parser, "fish", "nuts");
+      
+      //int numExporters = numOfExporters(parser, "sugar");
+      //System.out.println(numExporters);
+      
+      
+    
+    }
+    public void listExporters(CSVParser parser, String exportOfInterest){
+        //For each row in the CSV File
+        for(CSVRecord record: parser){
+            //Look at the "Exports" column
+            String export = record.get("Exports");
+            //Check if it contains exportOfInterest
+            if(export.contains(exportOfInterest)){
+                //If so, write down the "Country" from that row
+                String country = record.get("Country");
+                System.out.println(country);
+            }
+        }
+    }
+
+    public void WhoExportsCoffee(){
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser();
+        listExporters(parser, "coffee");
+    }
+
+    public void twoExportProducts(CSVParser parser, String export1, String export2){
+        double match = 0.0;
+        export1 = "fish";
+        export2 = "nuts";
+        for (CSVRecord record: parser){
+            String exports = record.get("Exports");
+            if(exports.contains(export1)){
+                match=match+0.5;
+            }
+            if(exports.contains(export2)){
+                match=match+0.5;
+            }
+            if(match==1.0){
+                String country = record.get("Country");
+                System.out.println(country);
+
+            }
+        }
+    }
+public int numOfExporters(CSVParser parser, String exportItem){
+    int numExports = 0;
+    for(CSVRecord record: parser){
+        String exports = record.get("Exports");
+        exportItem = "";
+        if(exports.contains(exportItem)){
+            numExports = numExports+1;
+        }
+        }
+        return numExports;
+}
+}
