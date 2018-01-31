@@ -1,0 +1,95 @@
+import edu.duke.*;
+import org.apache.commons.csv.*;
+/**
+ * Write a description of Parser here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Parser {
+    public void tester(){
+    FileResource fr= new FileResource();
+    CSVParser parser = fr.getCSVParser();
+    
+    //String countryInformation = countryInfo(parser, "Germany");
+    //System.out.println(countryInformation);
+    
+    //listExportersTwoProducts(parser, "fish");
+}
+public String countryInfo(CSVParser parser,String country){
+    //for every country in the CSV 
+    for (CSVRecord record : parser){
+        String countries = record.get("Country");
+        //if the country is found
+      if(countries.contains(country)){
+    // get exports according country
+    String exports = record.get("Exports");
+    //get value of exports// 
+    String value = record.get("Value (dollars)");
+    //country + exports + value 
+    String countryInformation = country + ": " + exports + ": " + value;
+    
+    return countryInformation ;
+}
+
+} 
+        //if the country is not found 
+String notFound = "NOT FOUND";
+return notFound;
+}
+
+public void listExportersTwoProducts(CSVParser parser , String exportItem1 , String exportItem2){
+    for(CSVRecord record : parser){
+        String country = record.get("Country");
+        String exports = record.get("Exports"); 
+        
+        if(exports.contains(exportItem1) && exports.contains(exportItem2)){
+            System.out.println("The country " + country + " exports the two items that you entered.");
+        }
+    }
+}
+
+public int numberOfExporters(CSVParser parser, String exportItem){
+    int count=0;
+    for(CSVRecord record : parser){
+        String exports = record.get("Exports");
+        
+        if(exports.contains(exportItem)){
+            count++ ; 
+        }
+    }
+    return count; 
+}
+
+public void bigExporters(CSVParser parser , String valueInDollarFormat){
+    for (CSVRecord record : parser){
+        String value = record.get("Value ($999,999,999,999)");
+        if (value.length() > valueInDollarFormat.length()){
+            String country= record.get("Country");
+            System.out.print(country + " ");
+            System.out.println(value);
+        }
+    }
+}
+
+public void listExporters(CSVParser parser , String exportOfInterest){
+    //for each row in CSV file
+    for(CSVRecord record : parser){
+        //look at the "Exports" column 
+        String export = record.get("Exports"); 
+        //check if it contains exportOfInterest 
+        if (export.contains(exportOfInterest)){
+            //If so, write down the "Country from that row
+            String country = record.get("Country");
+            System.out.println(country); 
+        }
+    }
+}
+
+public void whoExportsSugar(){
+    FileResource fr = new FileResource(); 
+    CSVParser parser = fr.getCSVParser();
+    listExporters(parser, "gold");
+}
+}
+
